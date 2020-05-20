@@ -1,11 +1,4 @@
-(executable
+(test
  (name test)
+ (package secp256k1-internal)
  (libraries hex libsecp256k1 alcotest))
-
-(alias
- (name    runtest-secp256k1)
- (action  (run %{exe:test.exe})))
-
-(alias
- (name    runtest)
- (deps    (alias runtest-secp256k1)))
