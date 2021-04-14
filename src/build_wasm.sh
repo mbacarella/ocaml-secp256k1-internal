@@ -60,7 +60,7 @@ echo "============================================="
    -s EXPORT_ES6=0 \
    -s FILESYSTEM=0 \
    -s "EXPORT_NAME='_SECP256K1'" \
-   -s EXPORTED_FUNCTIONS='[ "_malloc", "_free", "_secp256k1_context_create", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_sign_recoverable", "_secp256k1_context_randomize", "_secp256k1_ec_pubkey_parse", "_secp256k1_ec_pubkey_serialize", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_recoverable_signature_convert", "_secp256k1_ecdsa_signature_parse_compact", "_secp256k1_ecdsa_signature_serialize_compact", "_secp256k1_ecdsa_signature_serialize_der", "_secp256k1_ecdsa_verify", "_ml_secp256k1_fe_const_bytecode", "_ml_secp256k1_ge_of_fields", "_ml_secp256k1_scalar_const_bytecode", "_ml_secp256k1_gej_of_fields", "_ml_secp256k1_fe_set_b32", "_ml_secp256k1_gej_set_ge" ]'
+   -s EXPORTED_FUNCTIONS='[ "_malloc", "_free", "_secp256k1_context_create", "_secp256k1_ec_pubkey_create", "_secp256k1_ecdsa_recoverable_signature_parse_compact", "_secp256k1_ecdsa_sign", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_sign_recoverable", "_secp256k1_context_randomize", "_secp256k1_ec_pubkey_parse", "_secp256k1_ec_pubkey_serialize", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_recoverable_signature_convert", "_secp256k1_ecdsa_signature_parse_compact", "_secp256k1_ecdsa_signature_serialize_compact", "_secp256k1_ecdsa_signature_serialize_der", "_secp256k1_ecdsa_verify", "_ml_secp256k1_fe_const_bytecode", "_ml_secp256k1_ge_of_fields", "_ml_secp256k1_scalar_const_bytecode", "_ml_secp256k1_gej_of_fields", "_ml_secp256k1_fe_set_b32", "_ml_secp256k1_gej_set_ge" ]'
 
 )
 echo "============================================="
