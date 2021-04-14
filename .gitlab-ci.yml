@@ -7,3 +7,9 @@ build-and-test:
     - dune build
     - dune runtest
     - opam install .
+
+wasm-build:
+  image: emscripten/emsdk
+  script:
+    - apt update && apt install -y libgmp-dev opam
+    - cd src && ./build_wasm.sh
