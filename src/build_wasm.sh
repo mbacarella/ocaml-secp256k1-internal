@@ -19,8 +19,19 @@ fi
 
 eval "$(opam env)"
 
+if [ -z ext/lib/libgpm.a ]; then
+  wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.lz
+  tar xf gmp-6.1.2.tar.lz
+  mkdir -p ext
+  cd gmp-6.1.2
+  emconfigure ./configure --disable-assembly --host none --enable-cxx --prefix=$PWD/../ext
+  make
+  make install
+  cd ..
+fi
+
 export LDFLAGS="$LDFLAGS -L$OPAM_SWITCH_PREFIX/lib"
-export CFLAGS="$CFLAGS -I/usr/include/x86_64-linux-gnu -I$OPAM_SWITCH_PREFIX/lib/ocaml -I$OPAM_SWITCH_PREFIX/lib/gmp"
+export CFLAGS="$CFLAGS -I/usr/include/x86_64-linux-gnu -I$OPAM_SWITCH_PREFIX/lib/ocaml -I$OPAM_SWITCH_PREFIX/lib/gmp -Iext/lib -Iext/include"
 
 export EM_CACHE=$TMP
 export PROG=secp256k1.js
@@ -38,7 +49,7 @@ echo "Compiling wasm bindings"
 echo "============================================="
 (
   # Compile C/C++ code
-  emcc "$OPTIMIZE" $LDFLAGS $CFLAGS -o "$PROG" "$SRC" \
+  emcc "$OPTIMIZE" $LDFLAGS $CFLAGS ext/lib/libgmp.a -o "$PROG" "$SRC" \
    -DUSE_SCALAR_8X32 \
    -DUSE_FIELD_10X26 \
    -DUSE_NUM_GMP \
@@ -55,12 +66,12 @@ echo "============================================="
    -DENABLE_MODULE_RECOVERY \
    -s ALLOW_MEMORY_GROWTH=1 \
    -s WASM=1 \
-   -s MODULARIZE=1 \
    -s MALLOC=emmalloc \
    -s EXPORT_ES6=0 \
    -s FILESYSTEM=0 \
+   -s MODULARIZE=1 \
    -s "EXPORT_NAME='_SECP256K1'" \
-   -s EXPORTED_FUNCTIONS='[ "_malloc", "_free", "_secp256k1_context_create", "_secp256k1_ec_pubkey_create", "_secp256k1_ecdsa_recover", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_sign", "_secp256k1_ecdsa_recoverable_signature_parse_compact", "_secp256k1_ecdsa_signature_parse_der", "_secp256k1_ecdsa_sign", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_sign_recoverable", "_secp256k1_context_randomize", "_secp256k1_ec_pubkey_parse", "_secp256k1_ec_pubkey_serialize", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_recoverable_signature_convert", "_secp256k1_ecdsa_signature_parse_compact", "_secp256k1_ecdsa_signature_serialize_compact", "_secp256k1_ecdsa_signature_serialize_der", "_secp256k1_ecdsa_verify", "_ml_secp256k1_fe_const_bytecode", "_ml_secp256k1_ge_of_fields", "_ml_secp256k1_scalar_const_bytecode", "_ml_secp256k1_gej_of_fields", "_ml_secp256k1_fe_set_b32", "_ml_secp256k1_gej_set_ge" ]'
+   -s EXPORTED_FUNCTIONS='[ "_malloc", "_free", "_secp256k1_context_create", "_secp256k1_ec_pubkey_create", "_secp256k1_ecdsa_recover", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_sign", "_secp256k1_ecdsa_recoverable_signature_parse_compact", "_secp256k1_ecdsa_signature_parse_der", "_secp256k1_ecdsa_sign", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_sign_recoverable", "_secp256k1_context_randomize", "_secp256k1_ec_pubkey_parse", "_secp256k1_ec_pubkey_serialize", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_recoverable_signature_convert", "_secp256k1_ecdsa_signature_parse_compact", "_secp256k1_ecdsa_signature_serialize_compact", "_secp256k1_ecdsa_signature_serialize_der", "_secp256k1_ecdsa_verify", "_ml_secp256k1_fe_const_bytecode", "_ml_secp256k1_ge_of_fields", "_ml_secp256k1_scalar_const_bytecode", "_ml_secp256k1_gej_of_fields", "_ml_secp256k1_fe_set_b32", "_ml_secp256k1_gej_set_ge", "_sizeof_secp256k1_num", "_secp256k1_sizeof_secp256k1_num", "_ml_secp256k1_num_set_bin", "_ml_secp256k1_num_is_zero", "_ml_secp256k1_scalar_is_even", "_ml_secp256k1_scalar_is_one", "_ml_secp256k1_scalar_is_zero" ]'
 
 )
 echo "============================================="
