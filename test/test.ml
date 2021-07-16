@@ -19,7 +19,7 @@ module Scalar = struct
     let z = zero () in
     Alcotest.(check bool "Scalar.is_zero" true (is_zero z)) ;
     (* set_int z 1 ; *)
-    let z = const ~d0:1L () in
+    let z = const ~d0:1l () in
     Alcotest.(check bool "Scalar.is_zero" false (is_zero z)) ;
     Alcotest.(check bool "Scalar.is_even" false (is_even z)) ;
     Alcotest.(check bool "Scalar.is_one" true (is_one z))

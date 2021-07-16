@@ -74,16 +74,16 @@ module Scalar = struct
   let size = 32
 
   external const :
-    t -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> unit =
+    t -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> unit =
     "ml_secp256k1_scalar_const_bytecode" "ml_secp256k1_scalar_const" [@@noalloc]
 
-  let const ?(d7=0L) ?(d6=0L) ?(d5=0L) ?(d4=0L) ?(d3=0L) ?(d2=0L) ?(d1=0L) ?(d0=0L) () =
+  let const ?(d7=0l) ?(d6=0l) ?(d5=0l) ?(d4=0l) ?(d3=0l) ?(d2=0l) ?(d1=0l) ?(d0=0l) () =
     let buf = Cstruct.create size in
     const buf.buffer d7 d6 d5 d4 d3 d2 d1 d0 ;
     buf.buffer
 
   let zero () = const ()
-  let one () = const ~d0:1L ()
+  let one () = const ~d0:1l ()
   let copy t =
     let ret = Cstruct.create size in
     Cstruct.(blit (of_bigarray t) 0 ret 0 size) ;
@@ -159,10 +159,10 @@ module Field = struct
       | None -> invalid_arg "Field.Storage.of_cstruct_exn"
 
     external const :
-      t -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> unit =
+      t -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> unit =
       "ml_secp256k1_fe_storage_const_bytecode" "ml_secp256k1_fe_storage_const" [@@noalloc]
 
-    let const ?(d7=0L) ?(d6=0L) ?(d5=0L) ?(d4=0L) ?(d3=0L) ?(d2=0L) ?(d1=0L) ?(d0=0L) () =
+    let const ?(d7=0l) ?(d6=0l) ?(d5=0l) ?(d4=0l) ?(d3=0l) ?(d2=0l) ?(d1=0l) ?(d0=0l) () =
       let buf = Cstruct.create size in
       const buf.buffer d7 d6 d5 d4 d3 d2 d1 d0 ;
       buf.buffer
@@ -174,10 +174,10 @@ module Field = struct
   let size = 40
 
   external const :
-    t -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> int64 -> unit =
+    t -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> int32 -> unit =
     "ml_secp256k1_fe_const_bytecode" "ml_secp256k1_fe_const" [@@noalloc]
 
-  let const ?(d7=0L) ?(d6=0L) ?(d5=0L) ?(d4=0L) ?(d3=0L) ?(d2=0L) ?(d1=0L) ?(d0=0L) () =
+  let const ?(d7=0l) ?(d6=0l) ?(d5=0l) ?(d4=0l) ?(d3=0l) ?(d2=0l) ?(d1=0l) ?(d0=0l) () =
     let buf = Cstruct.create size in
     const buf.buffer d7 d6 d5 d4 d3 d2 d1 d0 ;
     buf.buffer
@@ -388,11 +388,11 @@ module Group = struct
 
   let g =
     let x = Field.const
-        ~d7:0x79BE667EL ~d6:0xF9DCBBACL ~d5:0x55A06295L ~d4:0xCE870B07L
-        ~d3:0x029BFCDBL ~d2:0x2DCE28D9L ~d1:0x59F2815BL ~d0:0x16F81798L () in
+        ~d7:0x79BE667El ~d6:0xF9DCBBACl ~d5:0x55A06295l ~d4:0xCE870B07l
+        ~d3:0x029BFCDBl ~d2:0x2DCE28D9l ~d1:0x59F2815Bl ~d0:0x16F81798l () in
     let y = Field.const
-        ~d7:0x483ADA77L ~d6:0x26A3C465L ~d5:0x5DA4FBFCL ~d4:0x0E1108A8L
-        ~d3:0xFD17B448L ~d2:0xA6855419L ~d1:0x9C47D08FL ~d0:0xFB10D4B8L () in
+        ~d7:0x483ADA77l ~d6:0x26A3C465l ~d5:0x5DA4FBFCl ~d4:0x0E1108A8l
+        ~d3:0xFD17B448l ~d2:0xA6855419l ~d1:0x9C47D08Fl ~d0:0xFB10D4B8l () in
     of_fields ~x ~y ~infinity:false ()
 
   external serialize : t -> Cstruct.buffer -> int -> bool -> int =

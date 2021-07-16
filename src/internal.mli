@@ -69,8 +69,8 @@ module Scalar : sig
   val copy : t -> t
 
   val const :
-    ?d7:int64 -> ?d6:int64 -> ?d5:int64 -> ?d4:int64 ->
-    ?d3:int64 -> ?d2:int64 -> ?d1:int64 -> ?d0:int64 -> unit -> t
+    ?d7:int32 -> ?d6:int32 -> ?d5:int32 -> ?d4:int32 ->
+    ?d3:int32 -> ?d2:int32 -> ?d1:int32 -> ?d0:int32 -> unit -> t
 
   val clear : t -> unit
   (** Clear a scalar to prevent the leak of sensitive data. *)
@@ -175,16 +175,16 @@ module Field : sig
     val of_cstruct_exn : Cstruct.t -> t
     val to_cstruct : t -> Cstruct.t
     val const :
-      ?d7:int64 -> ?d6:int64 -> ?d5:int64 -> ?d4:int64 ->
-      ?d3:int64 -> ?d2:int64 -> ?d1:int64 -> ?d0:int64 -> unit -> t
+      ?d7:int32 -> ?d6:int32 -> ?d5:int32 -> ?d4:int32 ->
+      ?d3:int32 -> ?d2:int32 -> ?d1:int32 -> ?d0:int32 -> unit -> t
     val cmov : t -> t -> bool -> unit
     (** If flag is true, set *r equal to *a; otherwise leave
         it. Constant-time. *)
   end
 
   val const :
-    ?d7:int64 -> ?d6:int64 -> ?d5:int64 -> ?d4:int64 ->
-    ?d3:int64 -> ?d2:int64 -> ?d1:int64 -> ?d0:int64 -> unit -> t
+    ?d7:int32 -> ?d6:int32 -> ?d5:int32 -> ?d4:int32 ->
+    ?d3:int32 -> ?d2:int32 -> ?d1:int32 -> ?d0:int32 -> unit -> t
   (** Unpacks a constant into a overlapping multi-limbed FE
       element. *)
 
