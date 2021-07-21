@@ -1,1 +1,1 @@
-val hw_identifier : unit -> string
+val hw_is_x86_64 : unit -> bool

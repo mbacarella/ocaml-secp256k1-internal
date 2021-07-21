@@ -1,11 +1,11 @@
 module C = Configurator.V1
 
-let hw = Config.hw_identifier ()
+let is_x86_64 = Config.hw_is_x86_64 ()
 let sixtyfour = Sys.word_size = 64
 
 let symbols = [
   (if sixtyfour then Some ("HAVE___INT128", None) else None) ;
-  (if hw = "x86_64" then Some ("USE_ASM_X86_64", None) else None) ;
+  (if is_x86_64 then Some ("USE_ASM_X86_64", None) else None) ;
   Some ((if sixtyfour then "USE_SCALAR_4X64" else "USE_SCALAR_8X32"), None) ;
   Some ((if sixtyfour then "USE_FIELD_5X52" else "USE_FIELD_10X26"), None) ;
   Some ("USE_NUM_GMP", None) ;

@@ -1,3 +1,3 @@
-external ml_get_hw_identifier : unit -> string = "ml_get_hw_identifier"
+external ml_hw_is_x86_64 : unit -> bool = "ml_hw_is_x86_64"
 
-let hw_identifier = ml_get_hw_identifier
+let hw_is_x86_64 = ml_hw_is_x86_64
