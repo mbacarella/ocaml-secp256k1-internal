@@ -27,7 +27,7 @@ static void secp256k1_num_copy(secp256k1_num *r, const secp256k1_num *a);
 static void secp256k1_num_get_bin(unsigned char *r, unsigned int rlen, const secp256k1_num *a);
 
 /** Set a number to the value of a binary big-endian string. */
-static void secp256k1_num_set_bin(secp256k1_num *r, const unsigned char *a, unsigned int alen);
+void secp256k1_num_set_bin(secp256k1_num *r, const unsigned char *a, unsigned int alen);
 
 /** Compute a modular inverse. The input must be less than the modulus. */
 static void secp256k1_num_mod_inverse(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *m);
@@ -58,7 +58,7 @@ static void secp256k1_num_mod(secp256k1_num *r, const secp256k1_num *m);
 static void secp256k1_num_shift(secp256k1_num *r, int bits);
 
 /** Check whether a number is zero. */
-static int secp256k1_num_is_zero(const secp256k1_num *a);
+int secp256k1_num_is_zero(const secp256k1_num *a);
 
 /** Check whether a number is one. */
 static int secp256k1_num_is_one(const secp256k1_num *a);

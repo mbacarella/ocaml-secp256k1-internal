@@ -42,7 +42,7 @@ static void secp256k1_num_get_bin(unsigned char *r, unsigned int rlen, const sec
     memset(tmp, 0, sizeof(tmp));
 }
 
-static void secp256k1_num_set_bin(secp256k1_num *r, const unsigned char *a, unsigned int alen) {
+void secp256k1_num_set_bin(secp256k1_num *r, const unsigned char *a, unsigned int alen) {
     int len;
     VERIFY_CHECK(alen > 0);
     VERIFY_CHECK(alen <= 64);
@@ -170,7 +170,7 @@ static int secp256k1_num_is_one(const secp256k1_num *a) {
     return (a->limbs == 1 && a->data[0] == 1);
 }
 
-static int secp256k1_num_is_zero(const secp256k1_num *a) {
+int secp256k1_num_is_zero(const secp256k1_num *a) {
     return (a->limbs == 1 && a->data[0] == 0);
 }
 

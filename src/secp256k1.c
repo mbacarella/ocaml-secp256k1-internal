@@ -590,6 +590,8 @@ int secp256k1_ec_pubkey_combine(const secp256k1_context* ctx, secp256k1_pubkey *
     return 1;
 }
 
+int secp256k1_sizeof_secp256k1_num() { return sizeof(secp256k1_num); }
+
 #ifdef ENABLE_MODULE_ECDH
 # include "ecdh.h"
 #endif
@@ -605,7 +607,7 @@ int secp256k1_ec_pubkey_combine(const secp256k1_context* ctx, secp256k1_pubkey *
 #include <caml/bigarray.h>
 
 CAMLprim value sizeof_secp256k1_num(value unit) {
-    return Val_int(sizeof(secp256k1_num));
+    return Val_int(secp256k1_sizeof_secp256k1_num());
 }
 
 CAMLprim value ml_secp256k1_num_copy(value r, value a) {
@@ -682,13 +684,21 @@ CAMLprim value ml_secp256k1_num_negate(value r) {
     return Val_unit;
 }
 
-CAMLprim value ml_secp256k1_scalar_const (value r,
-                                          value d7, value d6, value d5, value d4,
-                                          value d3, value d2, value d1, value d0) {
-    secp256k1_scalar s = SECP256K1_SCALAR_CONST(Int32_val(d7), Int32_val(d6), Int32_val(d5), Int32_val(d4),
-                                                Int32_val(d3), Int32_val(d2), Int32_val(d1), Int32_val(d0));
-    memcpy(Caml_ba_data_val(r), &s, sizeof(secp256k1_scalar));
-    return Val_unit;
+void secp256k1_scalar_const(secp256k1_scalar *r, uint32_t d7, uint32_t d6,
+                            uint32_t d5, uint32_t d4, uint32_t d3, uint32_t d2,
+                            uint32_t d1, uint32_t d0) {
+  secp256k1_scalar s = SECP256K1_SCALAR_CONST(d7, d6, d5, d4, d3, d2, d1, d0);
+  memcpy(r, &s, sizeof(secp256k1_scalar));
+  return;
+}
+
+CAMLprim value ml_secp256k1_scalar_const(value r, value d7, value d6, value d5,
+                                         value d4, value d3, value d2, value d1,
+                                         value d0) {
+  secp256k1_scalar_const(Caml_ba_data_val(r), Int32_val(d7), Int32_val(d6),
+                         Int32_val(d5), Int32_val(d4), Int32_val(d3),
+                         Int32_val(d2), Int32_val(d1), Int32_val(d0));
+  return Val_unit;
 }
 
 CAMLprim value ml_secp256k1_scalar_const_bytecode (value * argv, int argn)
@@ -805,13 +815,21 @@ CAMLprim value ml_secp256k1_mul_shift_var(value r, value a, value b, value shift
     return Val_unit;
 }
 
-CAMLprim value ml_secp256k1_fe_const (value r,
-                                      value d7, value d6, value d5, value d4,
-                                      value d3, value d2, value d1, value d0) {
-    secp256k1_fe fe = SECP256K1_FE_CONST(Int32_val(d7), Int32_val(d6), Int32_val(d5), Int32_val(d4),
-                                         Int32_val(d3), Int32_val(d2), Int32_val(d1), Int32_val(d0));
-    memcpy(Caml_ba_data_val(r), &fe, sizeof(secp256k1_fe));
-    return Val_unit;
+void secp256k1_fe_const(secp256k1_fe *r, uint32_t d7, uint32_t d6, uint32_t d5,
+                        uint32_t d4, uint32_t d3, uint32_t d2, uint32_t d1,
+                        uint32_t d0) {
+  secp256k1_fe fe = SECP256K1_FE_CONST(d7, d6, d5, d4, d3, d2, d1, d0);
+  memcpy(r, &fe, sizeof(secp256k1_fe));
+  return;
+}
+
+CAMLprim value ml_secp256k1_fe_const(value r, value d7, value d6, value d5,
+                                     value d4, value d3, value d2, value d1,
+                                     value d0) {
+  secp256k1_fe_const(Caml_ba_data_val(r), Int32_val(d7), Int32_val(d6),
+                     Int32_val(d5), Int32_val(d4), Int32_val(d3), Int32_val(d2),
+                     Int32_val(d1), Int32_val(d0));
+  return Val_unit;
 }
 
 CAMLprim value ml_secp256k1_fe_const_bytecode (value * argv, int argn)
@@ -819,6 +837,15 @@ CAMLprim value ml_secp256k1_fe_const_bytecode (value * argv, int argn)
     return ml_secp256k1_fe_const(argv[0], argv[1], argv[2], argv[3],
                                  argv[4], argv[5], argv[6], argv[7],
                                  argv[8]);
+}
+
+void secp256k1_ge_of_fields(secp256k1_ge *r, secp256k1_fe *x, secp256k1_fe *y,
+                            int infinity) {
+  secp256k1_ge *g = r;
+  memcpy(&g->x, x, sizeof(secp256k1_fe));
+  memcpy(&g->y, y, sizeof(secp256k1_fe));
+  g->infinity = Bool_val(infinity);
+  return;
 }
 
 CAMLprim value ml_secp256k1_fe_storage_const (value r,
@@ -975,12 +1002,20 @@ CAMLprim value ml_secp256k1_ge_of_fields (value r, value x, value y, value infin
     return Val_unit;
 }
 
+void secp256k1_gej_of_fields(secp256k1_gej *r, secp256k1_fe *x, secp256k1_fe *y,
+                             secp256k1_fe *z, int infinity) {
+  secp256k1_gej *g = r;
+  memcpy(&g->x, x, sizeof(secp256k1_fe));
+  memcpy(&g->y, y, sizeof(secp256k1_fe));
+  memcpy(&g->z, z, sizeof(secp256k1_fe));
+  g->infinity = infinity;
+  return;
+}
+
 CAMLprim value ml_secp256k1_gej_of_fields (value r, value x, value y, value z, value infinity) {
-    secp256k1_gej *g = Caml_ba_data_val(r);
-    memcpy(&g->x, Caml_ba_data_val(x), sizeof(secp256k1_fe));
-    memcpy(&g->y, Caml_ba_data_val(y), sizeof(secp256k1_fe));
-    memcpy(&g->z, Caml_ba_data_val(z), sizeof(secp256k1_fe));
-    g->infinity = Bool_val(infinity);
+   secp256k1_gej_of_fields(Caml_ba_data_val(r), Caml_ba_data_val(x),
+                          Caml_ba_data_val(y), Caml_ba_data_val(z),
+                          Bool_val(infinity));
     return Val_unit;
 }
 

@@ -11,7 +11,7 @@
 
 #include <string.h>
 
-SECP256K1_INLINE static int secp256k1_scalar_is_even(const secp256k1_scalar *a) {
+SECP256K1_INLINE int secp256k1_scalar_is_even(const secp256k1_scalar *a) {
     return !(*a & 1);
 }
 
@@ -55,7 +55,7 @@ static void secp256k1_scalar_set_b32(secp256k1_scalar *r, const unsigned char *b
     if (overflow) *overflow = 0;
 }
 
-static void secp256k1_scalar_get_b32(unsigned char *bin, const secp256k1_scalar* a) {
+void secp256k1_scalar_get_b32(unsigned char *bin, const secp256k1_scalar* a) {
     memset(bin, 0, 32);
     bin[28] = *a >> 24; bin[29] = *a >> 16; bin[30] = *a >> 8; bin[31] = *a;
 }
@@ -85,7 +85,7 @@ static int secp256k1_scalar_cond_negate(secp256k1_scalar *r, int flag) {
     return flag ? -1 : 1;
 }
 
-static void secp256k1_scalar_mul(secp256k1_scalar *r, const secp256k1_scalar *a, const secp256k1_scalar *b) {
+void secp256k1_scalar_mul(secp256k1_scalar *r, const secp256k1_scalar *a, const secp256k1_scalar *b) {
     *r = (*a * *b) % EXHAUSTIVE_TEST_ORDER;
 }
 

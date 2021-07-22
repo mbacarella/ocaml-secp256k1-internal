@@ -11,5 +11,5 @@ build-and-test:
 wasm-build:
   image: emscripten/emsdk
   script:
-    - apt update && apt install -y libgmp-dev opam
+    - apt update && apt install -y libgmp-dev opam lzip
     - cd src && ./build_wasm.sh
