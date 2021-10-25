@@ -4,6 +4,11 @@
 
 set -e
 
+if [ ! -f export  ]; then
+  echo "'export' file not found, run the script from the src directory"
+  exit 1
+fi
+
 # before running this script you must install emsdk and initialize
 # the emsdk environment using the command :
 # source emsdk_env.sh
@@ -18,6 +23,8 @@ if [ ! -e "$OPAM_SWITCH_PREFIX" ]; then
 fi
 
 eval "$(opam env)"
+
+EXPORTED_FUNCTIONS=$(cat export | xargs -I {} -n 1 echo \"{}\" | tr '\n' ',' | sed 's/\(.*\),$/[\1]/')
 
 if [ ! -f ext/lib/libgmp.a  ]; then
   if [ ! -f gmp-6.1.2.tar.lz ]; then
@@ -73,7 +80,7 @@ echo "============================================="
    -s FILESYSTEM=0 \
    -s MODULARIZE=1 \
    -s "EXPORT_NAME='_SECP256K1'" \
-   -s EXPORTED_FUNCTIONS='[ "_malloc", "_free", "_secp256k1_context_create", "_secp256k1_ec_pubkey_create", "_secp256k1_ecdsa_recover", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_sign", "_secp256k1_ecdsa_recoverable_signature_parse_compact", "_secp256k1_ecdsa_signature_parse_der", "_secp256k1_ecdsa_sign", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_sign_recoverable", "_secp256k1_context_randomize", "_secp256k1_ec_pubkey_parse", "_secp256k1_ec_pubkey_serialize", "_secp256k1_ec_seckey_verify", "_secp256k1_ecdsa_recoverable_signature_serialize_compact", "_secp256k1_ecdsa_recoverable_signature_convert", "_secp256k1_ecdsa_signature_parse_compact", "_secp256k1_ecdsa_signature_serialize_compact", "_secp256k1_ecdsa_signature_serialize_der", "_secp256k1_ecdsa_verify", "_secp256k1_fe_const", "_secp256k1_ge_of_fields", "_secp256k1_scalar_const", "_secp256k1_gej_of_fields", "_secp256k1_fe_set_b32", "_secp256k1_gej_set_ge", "_secp256k1_sizeof_secp256k1_num", "_secp256k1_num_set_bin", "_secp256k1_num_is_zero", "_secp256k1_scalar_is_one", "_secp256k1_scalar_is_zero", "_secp256k1_scalar_is_even", "_secp256k1_scalar_set_b32", "_secp256k1_scalar_get_b32", "_secp256k1_ge_set_gej", "_secp256k1_ecmult_const", "_secp256k1_scalar_mul", "_secp256k1_scalar_add", "_secp256k1_eckey_pubkey_serialize", "_secp256k1_scalar_negate", "_secp256k1_scalar_inverse", "_secp256k1_gej_add_var" ]'
+   -s EXPORTED_FUNCTIONS="$EXPORTED_FUNCTIONS"
 
 )
 echo "============================================="
