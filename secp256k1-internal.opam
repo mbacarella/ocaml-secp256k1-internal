@@ -16,7 +16,7 @@ build: [
 depends: [
   "ocaml" { >= "4.08.0" }
   "conf-gmp" {build}
-  "dune"
+  "dune" {>= "2"}
   "dune-configurator"
   "cstruct" { >= "6.0.0" }
   "bigstring" {>= "0.1.1"}
