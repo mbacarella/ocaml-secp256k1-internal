@@ -6,7 +6,9 @@ build:
     - opam install --with-test --with-doc --deps-only .
     - opam clean
     - dune build
-    - dune runtest
+    - . scripts/install-nvm.sh
+    - npm add @nomadic-labs/secp256k1wasm
+    - dune build @runtest @runtest-js
   cache:
     paths:
       - _build
