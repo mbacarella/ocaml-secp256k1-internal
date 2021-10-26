@@ -848,13 +848,21 @@ void secp256k1_ge_of_fields(secp256k1_ge *r, secp256k1_fe *x, secp256k1_fe *y,
   return;
 }
 
+void secp256k1_fe_storage_const (secp256k1_fe_storage *r,
+				 uint32_t d7, uint32_t d6, uint32_t d5, uint32_t d4,
+				 uint32_t d3, uint32_t d2, uint32_t d1, uint32_t d0) {
+    secp256k1_fe_storage fes = SECP256K1_FE_STORAGE_CONST(d7, d6, d5, d4, d3, d2, d1, d0);
+    memcpy(r, &fes, sizeof(secp256k1_fe_storage));
+    return;
+}
+
 CAMLprim value ml_secp256k1_fe_storage_const (value r,
                                               value d7, value d6, value d5, value d4,
                                               value d3, value d2, value d1, value d0) {
-    secp256k1_fe_storage fes = SECP256K1_FE_STORAGE_CONST(Int32_val(d7), Int32_val(d6), Int32_val(d5), Int32_val(d4),
-                                                          Int32_val(d3), Int32_val(d2), Int32_val(d1), Int32_val(d0));
-    memcpy(Caml_ba_data_val(r), &fes, sizeof(secp256k1_fe_storage));
-    return Val_unit;
+  secp256k1_fe_storage_const(Caml_ba_data_val(r),
+			     Int32_val(d7), Int32_val(d6), Int32_val(d5), Int32_val(d4),
+			     Int32_val(d3), Int32_val(d2), Int32_val(d1), Int32_val(d0));
+  return Val_unit;
 }
 
 CAMLprim value ml_secp256k1_fe_storage_const_bytecode (value * argv, int argn)
@@ -1019,11 +1027,16 @@ CAMLprim value ml_secp256k1_gej_of_fields (value r, value x, value y, value z, v
     return Val_unit;
 }
 
+void secp256k1_ge_storage_of_fields (secp256k1_ge_storage *g, secp256k1_fe *x, secp256k1_fe *y) {
+    memcpy(&g->x, x, sizeof(secp256k1_fe));
+    memcpy(&g->y, y, sizeof(secp256k1_fe));
+    return;
+}
+
+
 CAMLprim value ml_secp256k1_ge_storage_of_fields (value r, value x, value y) {
-    secp256k1_ge_storage *g = Caml_ba_data_val(r);
-    memcpy(&g->x, Caml_ba_data_val(x), sizeof(secp256k1_fe));
-    memcpy(&g->y, Caml_ba_data_val(y), sizeof(secp256k1_fe));
-    return Val_unit;
+  secp256k1_ge_storage_of_fields (Caml_ba_data_val(r), Caml_ba_data_val(x), Caml_ba_data_val(y));
+  return Val_unit;
 }
 
 CAMLprim value ml_secp256k1_ge_set_xy(value r, value x, value y) {
