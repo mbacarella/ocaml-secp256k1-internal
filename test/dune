@@ -1,4 +1,17 @@
 (test
  (name test)
+ (modes native js)
  (package secp256k1-internal)
  (libraries hex libsecp256k1 alcotest))
+
+
+(rule
+  (alias runtest)
+  (deps preload.js test.bc.js)
+  (action (run node -- preload.js ./test.bc.js)))
+
+(rule
+  (target needed-names)
+  (mode promote)
+  (deps ./gen-needed-names.sh ../src/runtime.js ../src/runtime_wrap.js)
+  (action (with-outputs-to %{target} (run ./gen-needed-names.sh ../src/runtime.js ../src/runtime_wrap.js))))

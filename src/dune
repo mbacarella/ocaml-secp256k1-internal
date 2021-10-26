@@ -4,6 +4,7 @@
  (modules         internal external)
  (libraries       bigstring cstruct)
  (c_library_flags (:include c_library_flags.sexp))
+ (js_of_ocaml     (javascript_files runtime_helper.js runtime.js runtime_wrap.js))
  (foreign_stubs
    (language      c)
    (names         secp256k1 secp256k1_wrap)
