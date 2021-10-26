@@ -2,8 +2,8 @@
  (name config)
  (modules config)
  (foreign_stubs
-   (language c)
-   (names config_stubs)))
+  (language c)
+  (names config_stubs)))
 
 (executable
  (name discover)
