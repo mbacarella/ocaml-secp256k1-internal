@@ -927,7 +927,7 @@ CAMLprim value ml_secp256k1_fe_get_b32(value a, value r) {
 }
 
 CAMLprim value ml_secp256k1_fe_negate(value r, value a, value m) {
-    secp256k1_fe_negate(Caml_ba_data_val(r), Caml_ba_data_val(a), Int_val(a));
+    secp256k1_fe_negate(Caml_ba_data_val(r), Caml_ba_data_val(a), Int_val(m));
     return Val_unit;
 }
 

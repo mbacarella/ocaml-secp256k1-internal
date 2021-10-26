@@ -121,7 +121,7 @@ CAMLprim value caml_secp256k1_ec_pubkey_combine(value ctx, value out, value pks)
     int size = 0;
     const secp256k1_pubkey* cpks[1024] = {0};
 
-    while(Field(pks, 1) != Val_unit) {
+    while(pks != Val_unit) {
         cpks[size] = Caml_ba_data_val(Field(pks, 0));
         size++;
         pks = Field(pks, 1);
