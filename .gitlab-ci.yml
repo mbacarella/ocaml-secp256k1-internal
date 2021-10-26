@@ -19,3 +19,18 @@ wasm-build:
   script:
     - apt update && apt install -y libgmp-dev opam lzip
     - cd src && ./build_wasm.sh
+
+lint:
+  image: ocaml/opam:alpine-3.12-ocaml-4.12
+  script:
+    - eval $(opam env)
+    - opam depext ocamlformat.$(cat .ocamlformat | grep version | cut -d '=' -f 2) --install
+    - dune build @fmt
+    - opam clean
+    - . scripts/install-nvm.sh
+    - npm install prettier
+    - npx prettier src/runtime*.js -c
+  cache:
+    paths:
+      - _build
+      - _opam

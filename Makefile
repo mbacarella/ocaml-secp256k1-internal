@@ -1,4 +1,4 @@
-.PHONY: all test test-js test-all clean
+.PHONY: all test test-js test-all clean fmt fmt-js
 
 all:
 	dune build @install @runtest
@@ -14,3 +14,9 @@ test-all:
 
 clean:
 	dune clean
+
+fmt:
+	dune build @fmt --auto-promote
+
+fmt-js:
+	npx prettier -w src/runtime*.js
