@@ -1,6 +1,7 @@
 (test
  (name test)
  (modes native js)
+ (modules test)
  (package secp256k1-internal)
  (libraries hex libsecp256k1 alcotest))
 
@@ -10,8 +11,18 @@
   (deps preload.js test.bc.js)
   (action (run node -- preload.js ./test.bc.js)))
 
+(executable
+  (name gen_needed_names)
+  (modules gen_needed_names)
+  (libraries re))
+
 (rule
   (target needed-names)
   (mode promote)
-  (deps ./gen-needed-names.sh ../src/runtime.js ../src/runtime_wrap.js)
-  (action (with-outputs-to %{target} (run ./gen-needed-names.sh ../src/runtime.js ../src/runtime_wrap.js))))
+  (deps ./gen_needed_names.exe ../src/runtime.js ../src/runtime_wrap.js)
+  (action (with-outputs-to %{target} (run ./gen_needed_names.exe ../src/runtime.js ../src/runtime_wrap.js))))
+
+;; Make sure all wasm functions used in js_of_ocaml stubs are exported
+(rule
+  (alias runtest)
+  (action (diff needed-names ../src/export )))
