@@ -21,7 +21,7 @@ wasm-build:
     - cd src && ./build_wasm.sh
 
 lint:
-  image: ocaml/opam:alpine-3.12-ocaml-4.12
+  image: registry.gitlab.com/tezos/opam-repository:runtime-build-test-dependencies--fac36cdc1d0f64a6702907e777e396172dee1464
   script:
     - eval $(opam env)
     - opam depext ocamlformat.$(cat .ocamlformat | grep version | cut -d '=' -f 2) --install
