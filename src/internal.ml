@@ -39,9 +39,9 @@ module Num = struct
   let size = size ()
 
   let get_bin cs =
-    Cstruct.(get_bin (to_bigarray cs) (len cs))
+    Cstruct.(get_bin (to_bigarray cs) (length cs))
   let set_bin r cs =
-    Cstruct.(set_bin r (to_bigarray cs) (len cs))
+    Cstruct.(set_bin r (to_bigarray cs) (length cs))
 
   let of_uint16 i =
     let t = Cstruct.create size in
