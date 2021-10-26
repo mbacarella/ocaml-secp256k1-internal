@@ -1,7 +1,7 @@
 opam-version: "2.0"
 name: "secp256k1-internal"
 maintainer: "contact@nomadic-labs.com"
-authors: "Vincent Bernardoff <vb@luminar.eu.org>"
+authors: "Vincent Bernardoff <vb@luminar.eu.org>, Nomadic-labs <contact@nomadic-labs.com>"
 homepage: "https://gitlab.com/nomadic-labs/ocaml-secp256k1-internal"
 synopsis: "Bindings to secp256k1 internal functions (generic operations on the curve)"
 
@@ -14,11 +14,11 @@ build: [
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 depends: [
-  "ocaml" {>= "4.08.0"}
+  "ocaml" { >= "4.08.0" }
   "conf-gmp" {build}
-  "dune" {>= "2"}
+  "dune"
   "dune-configurator"
-  "cstruct" {>= "3.2.1"}
+  "cstruct"
   "bigstring" {>= "0.1.1"}
   "conf-pkg-config"
   "hex" {with-test & >= "1.4.0"}

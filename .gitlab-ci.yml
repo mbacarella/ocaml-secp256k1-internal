@@ -1,12 +1,16 @@
-build-and-test:
-  image: ocaml/opam2:alpine-3.10-ocaml-4.08
+build:
+  image: registry.gitlab.com/tezos/opam-repository:runtime-build-test-dependencies--fac36cdc1d0f64a6702907e777e396172dee1464
   script:
-    - opam pin --no-action secp256k1-internal .
-    - opam depext secp256k1-internal
-    - opam install --deps-only -t .
+    - eval $(opam env)
+    - opam depext --with-test
+    - opam install --with-test --with-doc --deps-only .
+    - opam clean
     - dune build
     - dune runtest
-    - opam install .
+  cache:
+    paths:
+      - _build
+      - _opam
 
 wasm-build:
   image: emscripten/emsdk
