@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=cd329dbc3eaf096ae007e807b86b6f5947621ee3
+VERSION=9b3ff0309d46aef8418182e635e0766d6ab6cd32
 
 SRC_FILES="eckey.h eckey_impl.h ecmult_const.h ecmult_const_impl.h ecmult_impl.h field.h field_10x26_impl.h field_5x52_impl.h field_impl.h group.h group_impl.h num.h num_gmp_impl.h scalar.h scalar_4x64_impl.h scalar_8x32_impl.h scalar_impl.h scalar_low_impl.h secp256k1.c basic-config.h bench.h ecdsa.h ecdsa_impl.h ecmult.h ecmult_gen.h ecmult_gen_impl.h  field_10x26.h field_5x52.h field_5x52_asm_impl.h field_5x52_int128_impl.h hash.h hash_impl.h num_gmp.h num_impl.h scalar_4x64.h scalar_8x32.h scalar_low.h scratch.h scratch_impl.h  testrand.h testrand_impl.h util.h ecmult_static_context.h"
 
