@@ -42,10 +42,24 @@ fi
 export LDFLAGS="$LDFLAGS -L$OPAM_SWITCH_PREFIX/lib"
 export CFLAGS="$CFLAGS -I/usr/include/x86_64-linux-gnu -I$OPAM_SWITCH_PREFIX/lib/ocaml -I$OPAM_SWITCH_PREFIX/lib/gmp -Iext/lib -Iext/include"
 
+
+mkdir -p src-wasm
+cp *.c *.h src-wasm
+
+
+NAMES="$(cat export| xargs echo) _secp256k1_scalar_mul_512"
+echo $NAMES
+NAMES=$(echo "$NAMES" | sed 's/ _/\\|/g')
+echo $NAMES
+sed -i "s/^\(SECP256K1_INLINE \)\?static \(.* \)\($NAMES\)\((.*\)$/\1\2\3\4/g" src-wasm/*.h
+sed -i "s/^static\( SECP256K1_INLINE\)\?\(.* \)\($NAMES\)\((q.*\)$/\1\2\3\4/g" src-wasm/*.h
+
+
+
 export EM_CACHE=$TMP
 export PROG=secp256k1.js
 export WASM=secp256k1.wasm
-export SRC=secp256k1.c
+export SRC=src-wasm/secp256k1.c
 
 # -O0: Don't do any optimization. No dead code is eliminated, and Emscripten does not minify the JavaScript code it emits, either. Good for debugging.
 # -O3: Optimize aggressively for performance.

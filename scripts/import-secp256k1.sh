@@ -35,11 +35,4 @@ sed -i 's/"modules\/ecdh\/main_impl.h"/"ecdh.h"/' ../src/secp256k1.c
 sed -i 's/"modules\/recovery\/main_impl.h"/"recovery.h"/' ../src/secp256k1.c
 sed -i 's/#include "src\/\([^.]*\).h"/#include "\1.h"/' ../src/*.h ../src/*.c
 sed -i 's/#include "include\/\([^.]*\).h"/#include "\1.h"/' ../src/*.h ../src/*.c
-
-
-NAMES=$(cat ../src/export | xargs echo | sed 's/ _/\\|/g')
-echo $NAMES
-sed -i "s/^\(SECP256K1_INLINE \)\?static \(.* \)\($NAMES\)\((.*\)$/\1\2\3\4/g" ../src/*.h
-sed -i "s/^static\( SECP256K1_INLINE\)\?\(.* \)\($NAMES\)\((q.*\)$/\1\2\3\4/g" ../src/*.h
-
 echo '#include "secp256k1_stubs.c"' >> ../src/secp256k1.c

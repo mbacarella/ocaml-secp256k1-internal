@@ -6,3 +6,6 @@ src/ext
 src/gmp-6.1.2
 node_modules
 bitcoin-core-secp256k1
+src/src-wasm
+src/secp256k1.js
+src/secp256k1.wasm

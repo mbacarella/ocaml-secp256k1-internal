@@ -25,14 +25,14 @@
 #endif
 
 #ifndef USE_NUM_NONE
-void secp256k1_scalar_get_num(secp256k1_num *r, const secp256k1_scalar *a) {
+static void secp256k1_scalar_get_num(secp256k1_num *r, const secp256k1_scalar *a) {
     unsigned char c[32];
     secp256k1_scalar_get_b32(c, a);
     secp256k1_num_set_bin(r, c, 32);
 }
 
 /** secp256k1 curve order, see secp256k1_ecdsa_const_order_as_fe in ecdsa_impl.h */
-void secp256k1_scalar_order_get_num(secp256k1_num *r) {
+static void secp256k1_scalar_order_get_num(secp256k1_num *r) {
 #if defined(EXHAUSTIVE_TEST_ORDER)
     static const unsigned char order[32] = {
         0,0,0,0,0,0,0,0,
@@ -52,7 +52,7 @@ void secp256k1_scalar_order_get_num(secp256k1_num *r) {
 }
 #endif
 
-void secp256k1_scalar_inverse(secp256k1_scalar *r, const secp256k1_scalar *x) {
+static void secp256k1_scalar_inverse(secp256k1_scalar *r, const secp256k1_scalar *x) {
 #if defined(EXHAUSTIVE_TEST_ORDER)
     int i;
     *r = 0;
@@ -217,12 +217,12 @@ void secp256k1_scalar_inverse(secp256k1_scalar *r, const secp256k1_scalar *x) {
     secp256k1_scalar_mul(r, t, &x6); /* 111111 */
 }
 
-SECP256K1_INLINE int secp256k1_scalar_is_even(const secp256k1_scalar *a) {
+SECP256K1_INLINE static int secp256k1_scalar_is_even(const secp256k1_scalar *a) {
     return !(a->d[0] & 1);
 }
 #endif
 
-void secp256k1_scalar_inverse_var(secp256k1_scalar *r, const secp256k1_scalar *x) {
+static void secp256k1_scalar_inverse_var(secp256k1_scalar *r, const secp256k1_scalar *x) {
 #if defined(USE_SCALAR_INV_BUILTIN)
     secp256k1_scalar_inverse(r, x);
 #elif defined(USE_SCALAR_INV_NUM)
