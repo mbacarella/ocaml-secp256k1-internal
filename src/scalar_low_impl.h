@@ -36,7 +36,7 @@ int secp256k1_scalar_add(secp256k1_scalar *r, const secp256k1_scalar *a, const s
     return *r < *b;
 }
 
-static void secp256k1_scalar_cadd_bit(secp256k1_scalar *r, unsigned int bit, int flag) {
+void secp256k1_scalar_cadd_bit(secp256k1_scalar *r, unsigned int bit, int flag) {
     if (flag && bit < 32)
         *r += (1 << bit);
 #ifdef VERIFY

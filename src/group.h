@@ -80,7 +80,7 @@ static void secp256k1_ge_set_table_gej_var(secp256k1_ge *r, const secp256k1_gej 
 static void secp256k1_ge_globalz_set_table_gej(size_t len, secp256k1_ge *r, secp256k1_fe *globalz, const secp256k1_gej *a, const secp256k1_fe *zr);
 
 /** Set a group element (affine) equal to the point at infinity. */
-void secp256k1_ge_set_infinity(secp256k1_ge *r);
+static void secp256k1_ge_set_infinity(secp256k1_ge *r);
 
 /** Set a group element (jacobian) equal to the point at infinity. */
 void secp256k1_gej_set_infinity(secp256k1_gej *r);
@@ -119,7 +119,7 @@ void secp256k1_gej_add_ge(secp256k1_gej *r, const secp256k1_gej *a, const secp25
 void secp256k1_gej_add_ge_var(secp256k1_gej *r, const secp256k1_gej *a, const secp256k1_ge *b, secp256k1_fe *rzr);
 
 /** Set r equal to the sum of a and b (with the inverse of b's Z coordinate passed as bzinv). */
-void secp256k1_gej_add_zinv_var(secp256k1_gej *r, const secp256k1_gej *a, const secp256k1_ge *b, const secp256k1_fe *bzinv);
+static void secp256k1_gej_add_zinv_var(secp256k1_gej *r, const secp256k1_gej *a, const secp256k1_ge *b, const secp256k1_fe *bzinv);
 
 #ifdef USE_ENDOMORPHISM
 /** Set r to be equal to lambda times a, where lambda is chosen in a way such that this is very fast. */

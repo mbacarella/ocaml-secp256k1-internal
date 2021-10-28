@@ -5,3 +5,4 @@ src/gmp-6.1.2.tar.lz
 src/ext
 src/gmp-6.1.2
 node_modules
+bitcoin-core-secp256k1

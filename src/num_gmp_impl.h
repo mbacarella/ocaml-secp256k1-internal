@@ -59,7 +59,7 @@ void secp256k1_num_set_bin(secp256k1_num *r, const unsigned char *a, unsigned in
     }
 }
 
-void secp256k1_num_add_abs(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b) {
+static void secp256k1_num_add_abs(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b) {
     mp_limb_t c = mpn_add(r->data, a->data, a->limbs, b->data, b->limbs);
     r->limbs = a->limbs;
     if (c != 0) {
@@ -68,7 +68,7 @@ void secp256k1_num_add_abs(secp256k1_num *r, const secp256k1_num *a, const secp2
     }
 }
 
-void secp256k1_num_sub_abs(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b) {
+static void secp256k1_num_sub_abs(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b) {
     mp_limb_t c = mpn_sub(r->data, a->data, a->limbs, b->data, b->limbs);
     (void)c;
     VERIFY_CHECK(c == 0);
@@ -201,7 +201,7 @@ int secp256k1_num_eq(const secp256k1_num *a, const secp256k1_num *b) {
     return mpn_cmp(a->data, b->data, a->limbs) == 0;
 }
 
-void secp256k1_num_subadd(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b, int bneg) {
+static void secp256k1_num_subadd(secp256k1_num *r, const secp256k1_num *a, const secp256k1_num *b, int bneg) {
     if (!(b->neg ^ bneg ^ a->neg)) { /* a and b have the same sign */
         r->neg = a->neg;
         if (a->limbs >= b->limbs) {

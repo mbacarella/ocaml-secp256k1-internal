@@ -27,7 +27,7 @@
 void secp256k1_scalar_clear(secp256k1_scalar *r);
 
 /** Access bits from a scalar. All requested bits must belong to the same 32-bit limb. */
- unsigned int secp256k1_scalar_get_bits(const secp256k1_scalar *a, unsigned int offset, unsigned int count);
+unsigned int secp256k1_scalar_get_bits(const secp256k1_scalar *a, unsigned int offset, unsigned int count);
 
 /** Access bits from a scalar. Not constant time. */
 unsigned int secp256k1_scalar_get_bits_var(const secp256k1_scalar *a, unsigned int offset, unsigned int count);
