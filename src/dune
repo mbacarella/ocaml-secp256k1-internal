@@ -9,6 +9,7 @@
   (javascript_files runtime_helper.js runtime.js runtime_wrap.js))
  (foreign_stubs
   (language c)
+  (extra_deps secp256k1_stubs.c)
   (names secp256k1 secp256k1_wrap)
   (flags
    (:include c_flags.sexp))))
