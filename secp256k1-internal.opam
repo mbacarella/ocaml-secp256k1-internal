@@ -23,5 +23,5 @@ depends: [
   "conf-pkg-config"
   "hex" {with-test & >= "1.4.0"}
   "alcotest" {with-test}
-  "js_of_ocaml-compiler" { with-test & >= " 3.11"}
+  "js_of_ocaml-compiler" { with-test & >= "3.11"}
 ]
