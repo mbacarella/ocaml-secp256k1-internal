@@ -501,3 +501,11 @@ module Sign = struct
     try Ok (recover_exn ctx ~signature msg)
     with Invalid_argument msg -> Error msg
 end
+
+module Ecdh = struct
+  external ecdh :
+  Context.t -> Bigstring.t -> Bigstring.t -> Bigstring.t -> int
+  = "caml_secp256k1_ecdh"
+
+  let ecdh ctx ~pk ~sk buf = ecdh ctx buf (Key.buffer pk) (Key.buffer sk)
+end

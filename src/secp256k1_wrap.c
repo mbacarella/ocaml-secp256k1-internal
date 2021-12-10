@@ -6,6 +6,7 @@
 
 #include "secp256k1.h"
 #include "secp256k1_recovery.h"
+#include "secp256k1_ecdh.h"
 
 /* Accessing the secp256k1_context * part of an OCaml custom block */
 #define Context_val(v) (*((secp256k1_context **) Data_custom_val(v)))
@@ -221,4 +222,11 @@ CAMLprim value caml_secp256k1_ecdsa_recover(value ctx, value buf, value signatur
                                             Caml_ba_data_val(buf),
                                             Caml_ba_data_val(signature),
                                             Caml_ba_data_val(msg)));
+}
+
+CAMLprim value caml_secp256k1_ecdh(value ctx, value buf, value pk, value sk) {
+    return Val_int(secp256k1_ecdh(Context_val(ctx),
+                                  Caml_ba_data_val(buf),
+                                  Caml_ba_data_val(pk),
+                                  Caml_ba_data_val(sk)));
 }

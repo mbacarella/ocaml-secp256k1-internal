@@ -21,6 +21,7 @@ let symbols =
     Some ("SECP256K1_TAG_PUBKEY_HYBRID_EVEN", Some "0x06");
     Some ("SECP256K1_TAG_PUBKEY_HYBRID_ODD", Some "0x07");
     Some ("ENABLE_MODULE_RECOVERY", None);
+    Some ("ENABLE_MODULE_ECDH", None)
   ]
 
 let generate_defines symbols =

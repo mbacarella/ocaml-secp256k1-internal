@@ -243,3 +243,8 @@ module Sign : sig
     Bigstring.t ->
     (Key.public Key.t, string) result
 end
+
+module Ecdh : sig
+  (** [ecdh ctx ~pk ~sk ~f ~sk ~ss] computes an EC Diffie-Hellman secret in constant time. *)
+  val ecdh : Context.t -> pk:Key.public Key.t -> sk:Key.secret Key.t -> Bigstring.t -> int
+end
